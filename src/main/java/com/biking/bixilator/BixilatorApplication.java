@@ -9,7 +9,7 @@ public class BixilatorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BixilatorApplication.class, args);
-		DataFetch.fetchBikeData();
+		DataFetch.fetchBikeData("https://gbfs.velobixi.com/gbfs/en/station_information.json");
 	}
 
 }
