@@ -1,5 +1,6 @@
 package com.biking.bixilator.requests;
 
+import com.biking.bixilator.entities.StationInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,6 +10,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataFetch {
     private static HttpClient httpClient = HttpClient.newBuilder().build();
@@ -31,22 +34,35 @@ public class DataFetch {
     /**
      * Parses the response body and creates entity objects from the data
      * @param responseBody
+     * @return all station info objects created
      */
-    public static void parseStationInfo(String responseBody){
-        JSONObject stationInfoData = new JSONObject(responseBody);
-        JSONObject stationInfoObj = (JSONObject) stationInfoData.get("data");
-        JSONArray stationInfos = (JSONArray) stationInfoObj.get("stations");
+    public static List<StationInfo> parseStationInfo(String responseBody){
+        JSONObject stationInfoRes = new JSONObject(responseBody);
+        JSONObject stationInfoData = (JSONObject) stationInfoRes.get("data");
+        JSONArray stationInfosArr = (JSONArray) stationInfoData.get("stations");
 
-        for (int i = 0; i < stationInfos.length(); i++){
-            JSONObject stationInfo = stationInfos.getJSONObject(i);
-            BigDecimal latitude = stationInfo.getBigDecimal("lat");
-            BigDecimal longitude = stationInfo.getBigDecimal("lon");
+        List<StationInfo> stationInfos = new ArrayList<>();
+        for (int i = 0; i < stationInfosArr.length(); i++){
+            JSONObject stationInfoObj = stationInfosArr.getJSONObject(i);
+            BigDecimal latitude = stationInfoObj.getBigDecimal("lat");
+            BigDecimal longitude = stationInfoObj.getBigDecimal("lon");
             if (latitude.doubleValue() == 0 || longitude.doubleValue() == 0) continue;
-            String name = stationInfo.getString("name");
-            int capacity = (int) stationInfo.getNumber("capacity");
-            boolean isChargingStation = stationInfo.getBoolean("is_charging");
-            boolean hasKiosk = stationInfo.getBoolean("has_kiosk");
+            String name = stationInfoObj.getString("name");
+            int capacity = (int) stationInfoObj.getNumber("capacity");
+            boolean isChargingStation = stationInfoObj.getBoolean("is_charging");
+            boolean hasKiosk = stationInfoObj.getBoolean("has_kiosk");
+
+            StationInfo stationInfo = StationInfo.builder()
+                    .latitude(latitude)
+                    .longitude(longitude)
+                    .name(name)
+                    .capacity(capacity)
+                    .isChargingStation(isChargingStation)
+                    .hasKiosk(hasKiosk)
+                    .build();
+            stationInfos.add(stationInfo);
         }
+        return stationInfos;
     }
 }
 

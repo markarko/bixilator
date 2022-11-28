@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@Builder
 public class StationInfo {
     private BigDecimal latitude;
     private BigDecimal longitude;
