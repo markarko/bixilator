@@ -19,16 +19,16 @@ public class DataFetch {
     /**
      * Fetches information about all bixi stations from the API
      */
-    public static void fetchBikeData(String url) {
+    public static HttpResponse<String> fetchBikeData(String url) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .build();
         try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            parseStationInfo(response.body());
+             return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -51,7 +51,6 @@ public class DataFetch {
             int capacity = (int) stationInfoObj.getNumber("capacity");
             boolean isChargingStation = stationInfoObj.getBoolean("is_charging");
             boolean hasKiosk = stationInfoObj.getBoolean("has_kiosk");
-
             StationInfo stationInfo = StationInfo.builder()
                     .latitude(latitude)
                     .longitude(longitude)
