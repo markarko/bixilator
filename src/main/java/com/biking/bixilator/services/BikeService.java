@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class BikeService {
-    public List<StationInfo> filterByLongitude(List<StationInfo> stationInfos, BigDecimal longitude){
+    public List<StationInfo> filterByLongitude(List<StationInfo> stationInfos, BigDecimal longitude) {
         return stationInfos.stream()
                 .filter(stationInfo -> stationInfo.getLongitude().compareTo(longitude) == 0)
                 .collect(Collectors.toList());
