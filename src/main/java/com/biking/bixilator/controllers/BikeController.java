@@ -6,7 +6,6 @@ import com.biking.bixilator.services.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,14 +20,8 @@ public class BikeController {
     }
     @GetMapping(value = "/search", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<StationInfo> reqTest(@RequestParam String query) {
-        try{
-            // returns all for now
-            List<StationInfo> stationInfos = DataFetch.getAllStationInfos();
-            return stationInfos;
-        } catch (NumberFormatException e){
-            System.out.println("Query is not a longitude");
-        }
-        return new ArrayList<>();
+    public List<StationInfo> search(@RequestParam String query) {
+        List<StationInfo> stationInfos = DataFetch.getAllStationInfos();
+        return bikeService.filterByName(stationInfos, query);
     }
 }
