@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @SpringBootTest
@@ -21,12 +19,13 @@ public class BikeServiceTests {
     public void filterByLongitudeTest(){
         List<StationInfo> stationInfos = DataFetch.getAllStationInfos();
         BigDecimal longitude = new BigDecimal(	-73.56295);
-        BigDecimal trunkedLongitude = longitude.setScale(15, RoundingMode.DOWN);
-        List<StationInfo> filteredStationInfos = bikeService.filterByLongitude(stationInfos, trunkedLongitude);
+        List<StationInfo> filteredStationInfos = bikeService.filterByLongitude(stationInfos, longitude);
         Assertions.assertEquals(filteredStationInfos.size(), 1);
-        longitude = new BigDecimal(	-74.525632452465324523546295);
-        trunkedLongitude = longitude.setScale(15, RoundingMode.DOWN);
-        filteredStationInfos = bikeService.filterByLongitude(stationInfos, trunkedLongitude);
+        longitude = new BigDecimal(	-73.525632452465324523546295);
+        filteredStationInfos = bikeService.filterByLongitude(stationInfos, longitude);
         Assertions.assertEquals(filteredStationInfos.size(), 0);
+        longitude = new BigDecimal(	-73.51035632193089);
+        filteredStationInfos = bikeService.filterByLongitude(stationInfos, longitude);
+        Assertions.assertEquals(filteredStationInfos.size(), 1);
     }
 }
