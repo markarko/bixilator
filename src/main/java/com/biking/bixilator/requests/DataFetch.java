@@ -34,7 +34,7 @@ public class DataFetch {
     /**
      * Parses the response body and creates entity objects from the data
      * @param responseBody
-     * @return all station info objects created
+     * @return
      */
     public static List<StationInfo> parseStationInfo(String responseBody){
         JSONObject stationInfoRes = new JSONObject(responseBody);
@@ -62,6 +62,15 @@ public class DataFetch {
             stationInfos.add(stationInfo);
         }
         return stationInfos;
+    }
+
+    /**
+     * Wrapper method that gets all station information and returns the converted station info objects
+     * @return
+     */
+    public static List<StationInfo> getAllStationInfos(){
+        HttpResponse<String> response = DataFetch.fetchBikeData("https://gbfs.velobixi.com/gbfs/en/station_information.json");
+        return DataFetch.parseStationInfo(response.body());
     }
 }
 

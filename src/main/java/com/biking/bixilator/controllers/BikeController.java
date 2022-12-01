@@ -32,8 +32,7 @@ public class BikeController {
     public List<StationInfo> reqTest(@RequestParam String query) {
         try{
             // returns all for now
-            HttpResponse<String> response = DataFetch.fetchBikeData("https://gbfs.velobixi.com/gbfs/en/station_information.json");
-            List<StationInfo> stationInfos = DataFetch.parseStationInfo(response.body());
+            List<StationInfo> stationInfos = DataFetch.getAllStationInfos();
             return stationInfos;
         } catch (NumberFormatException e){
             System.out.println("Query is not a longitude");

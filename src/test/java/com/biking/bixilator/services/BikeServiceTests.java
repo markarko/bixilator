@@ -19,8 +19,7 @@ public class BikeServiceTests {
 
     @Test
     public void filterByLongitudeTest(){
-        HttpResponse<String> response = DataFetch.fetchBikeData("https://gbfs.velobixi.com/gbfs/en/station_information.json");
-        List<StationInfo> stationInfos = DataFetch.parseStationInfo(response.body());
+        List<StationInfo> stationInfos = DataFetch.getAllStationInfos();
         BigDecimal longitude = new BigDecimal(	-73.56295);
         BigDecimal trunkedLongitude = longitude.setScale(15, RoundingMode.DOWN);
         List<StationInfo> filteredStationInfos = bikeService.filterByLongitude(stationInfos, trunkedLongitude);
