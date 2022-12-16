@@ -5,12 +5,16 @@
     <title>Title</title>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="shortcut icon" href="#">
-    <script defer src="/js/index.js"></script>
+    <script src="/js/mapsApiKey.js"></script>
+    <script src="/js/index.js" defer></script>
 </head>
 <body>
     <form id="search-form">
-        <input id="search-input" placeholder="Enter a location" required>
+        <input id="search-input" placeholder="Enter a location" required />
         <button type="submit">Search</button>
     </form>
+    <div id="map"></div>
+
+    <script id="map-script" defer></script>
 </body>
 </html>
